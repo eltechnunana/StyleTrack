@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 620" width="300" height="620">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#3b3f49"/>
+      <stop offset="50%" stop-color="#1c2026"/>
+      <stop offset="100%" stop-color="#0f1216"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.5" cy="0.2" r="0.6">
+      <stop offset="0%" stop-color="#7c818a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c818a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Base figure silhouette -->
+  <g fill="url(#bodyGrad)" stroke="#0e131a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Head -->
+    <ellipse cx="150" cy="62" rx="30" ry="36"/>
+    <!-- Neck -->
+    <path d="M130 95 C135 105 165 105 170 95 L170 110 C160 118 140 118 130 110 Z"/>
+    <!-- Torso/shoulders/chest -->
+    <path d="M85 120 Q150 104 215 120 C230 130 238 150 236 175
+             C233 205 220 230 205 250 C195 263 180 275 150 278
+             C120 275 105 263 95 250 C80 230 67 205 64 175
+             C62 150 70 130 85 120 Z"/>
+    <!-- Abdomen -->
+    <path d="M110 280 C100 300 100 330 110 350 C120 370 135 382 150 382
+             C165 382 180 370 190 350 C200 330 200 300 190 280 Z"/>
+    <!-- Hips -->
+    <path d="M95 380 C85 395 80 410 82 430 C84 455 96 475 115 485
+             C130 493 140 495 150 495 C160 495 170 493 185 485
+             C204 475 216 455 218 430 C220 410 215 395 205 380 Z"/>
+    <!-- Legs -->
+    <path d="M118 490 C110 505 108 520 110 545 C112 565 115 585 118 605
+             L138 605 C140 585 140 565 140 545 C140 520 135 505 130 492 Z"/>
+    <path d="M182 490 C190 505 192 520 190 545 C188 565 185 585 182 605
+             L162 605 C160 585 160 565 160 545 C160 520 165 505 170 492 Z"/>
+    <!-- Arms -->
+    <path d="M64 150 C60 170 60 190 65 210 C70 230 80 248 92 258
+             L98 245 C88 235 80 220 76 205 C72 190 72 170 76 155 Z"/>
+    <path d="M236 150 C240 170 240 190 235 210 C230 230 220 248 208 258
+             L202 245 C212 235 220 220 224 205 C228 190 228 170 224 155 Z"/>
+  </g>
+
+  <!-- Soft highlight -->
+  <ellipse cx="150" cy="170" rx="70" ry="40" fill="url(#shine)"/>
+</svg>

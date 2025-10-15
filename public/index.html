@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StyleTrack · Measurements</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Tailwind CDN removed for production readiness; minimal utilities are replicated in assets/css/style.css -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <script defer src="assets/js/core.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="assets/js/app.js"></script>
+    <script defer src="assets/js/measurements-sync.js"></script>
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <nav class="navbar navbar-light bg-white border-bottom fixed-top">
+      <div class="container-fluid">
+        <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <a class="navbar-brand ms-2 fw-semibold brand-logo" href="home.html">StyleTrack</a>
+        
+      </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarLabel">StyleTrack</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-unstyled">
+          <li><a href="home.html" class="d-block py-2"><i class="bi bi-house me-2"></i>Home</a></li>
+          <li><a href="clients.html" class="d-block py-2"><i class="bi bi-people me-2"></i>Clients</a></li>
+          <li><a href="index.html" class="d-block py-2"><i class="bi bi-rulers me-2"></i>Measurements</a></li>
+          <li><a href="orders.html" class="d-block py-2"><i class="bi bi-card-checklist me-2"></i>Orders</a></li>
+          <li><a href="reports.html" class="d-block py-2"><i class="bi bi-bar-chart me-2"></i>Reports</a></li>
+          <li><a href="settings.html" class="d-block py-2"><i class="bi bi-gear me-2"></i>Settings</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <main class="container-fluid mt-5 pt-3">
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="p-3 rounded-3 bg-white border d-flex flex-wrap align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-semibold">Measurements</span>
+              <span class="text-muted small">Tailor Body Measurement</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <div class="input-group input-group-sm" style="max-width: 240px;">
+                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                <select id="clientSelect" class="form-select">
+                  <option value="">Select client</option>
+                </select>
+                <button id="addClientBtn" class="btn btn-outline-primary">Add</button>
+              </div>
+              <div class="btn-group btn-group-sm" role="group" aria-label="Gender">
+                <input type="radio" class="btn-check" name="gender" id="genderMale" value="male" checked>
+                <label class="btn btn-outline-secondary" for="genderMale">Male</label>
+                <input type="radio" class="btn-check" name="gender" id="genderFemale" value="female">
+                <label class="btn btn-outline-secondary" for="genderFemale">Female</label>
+                <input type="radio" class="btn-check" name="gender" id="genderCustom" value="custom">
+                <label class="btn btn-outline-secondary" for="genderCustom">Custom</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="genderFieldsOnlyToggle">
+                <label class="form-check-label" for="genderFieldsOnlyToggle">Relevant fields only</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="unitToggle">
+                <label class="form-check-label" for="unitToggle"><span id="unitLabel">cm</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h6 class="mb-0">Measurement Form</h6>
+                <span class="text-muted small">Tap fields to edit</span>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-6">
+                  <label class="form-label">Height</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-height" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Neck</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-neck" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <label class="form-label">Shoulder</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-arrows-angle-expand"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-shoulder" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                  <div class="form-text" id="suggest-shoulder"></div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Chest / Bust</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-heart"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-chest" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <label class="form-label">Waist</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-circle"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-waist" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                  <div class="form-text" id="suggest-waist"></div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Hip</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-circle"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-hip" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <label class="form-label">Arm Length</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-hand-index"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-arm_length" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Sleeve Length</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-handbag"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-sleeve_length" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <label class="form-label">Back Width</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-arrows-angle-expand"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-back_width" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Trouser Length</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-slash-lg"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-trouser_length" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                  <div class="form-text" id="suggest-trouser_length"></div>
+                </div>
+
+                <div class="col-6">
+                  <label class="form-label">Thigh</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-circle"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-thigh" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Inseam</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-arrow-down-up"></i></span>
+                    <input type="number" step="0.1" class="form-control" id="field-inseam" placeholder="0">
+                    <span class="input-group-text unit-badge">cm</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <label for="field-notes" class="form-label">Notes</label>
+                <textarea id="field-notes" class="form-control" rows="3" placeholder="Any special fit preferences or instructions"></textarea>
+              </div>
+
+              <div class="mt-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="mb-0">Custom Fields</h6>
+                  <button id="addCustomField" class="btn btn-sm btn-outline-secondary"><i class="bi bi-plus"></i> Add field</button>
+                </div>
+                <div id="customFields" class="mt-2"></div>
+              </div>
+
+              <div class="mt-3 d-flex flex-wrap gap-2">
+                <button id="saveBtn" class="btn btn-primary"><i class="bi bi-save"></i> Save</button>
+                <button id="clearBtn" class="btn btn-outline-secondary"><i class="bi bi-trash"></i> Clear</button>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="bi bi-file-earmark-arrow-down"></i> Export</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="mobile-action-bar d-lg-none position-fixed bottom-0 start-0 end-0 bg-white border-top p-2">
+      <div class="d-flex justify-content-around">
+        <button id="saveBtnMobile" class="btn btn-primary w-100 me-2"><i class="bi bi-save"></i> Save</button>
+        <button id="clearBtnMobile" class="btn btn-outline-secondary w-100"><i class="bi bi-trash"></i> Clear</button>
+      </div>
+    </div>
+
+    <div class="modal fade" id="aiModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">StyleTrack AI Assistant</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-chat-dots"></i></span>
+              <input type="text" id="aiQuery" class="form-control" placeholder="Ask about standard measurements">
+            </div>
+            <div id="aiResponse" class="mt-3 small text-muted"></div>
+          </div>
+          <div class="modal-footer">
+            <button id="askAiBtn" type="button" class="btn btn-primary">Ask</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exportModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Export Measurement Sheet</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-2">Choose export format:</p>
+            <div class="d-flex gap-2">
+              <button id="exportPdfBtn" class="btn btn-outline-primary"><i class="bi bi-filetype-pdf"></i> PDF</button>
+              <button id="exportCsvBtn" class="btn btn-outline-secondary"><i class="bi bi-filetype-csv"></i> CSV</button>
+            </div>
+            <div id="exportStatus" class="mt-3 small text-muted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>

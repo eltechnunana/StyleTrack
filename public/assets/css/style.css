@@ -1,0 +1,79 @@
+.mannequin-part {
+  cursor: pointer;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill-opacity: 0.08;
+  transition: fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease;
+}
+.mannequin-part:hover {
+  opacity: 0.92;
+}
+.mannequin-part.active {
+  fill: #3b82f6;
+  stroke: #1e40af;
+  fill-opacity: 1;
+}
+.unit-badge {
+  min-width: 56px;
+}
+.mobile-action-bar {
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* visual container */
+#visualWrap { position: relative; }
+#mannequin { position: relative; z-index: 1; }
+
+/* Minimal Tailwind-like utilities used in the page */
+.min-h-screen { min-height: 100vh; }
+.bg-gray-50 { background-color: #f9fafb; }
+.text-gray-900 { color: #111827; }
+.text-xs { font-size: 0.75rem; }
+
+/* SVG color utilities */
+.fill-gray-200 { fill: #e5e7eb; }
+.fill-gray-300 { fill: #d1d5db; }
+.stroke-gray-500 { stroke: #6b7280; }
+
+/* Dark-mode variants for fill colors (emulating Tailwind's dark:) */
+.dark [class*="dark:fill-gray-700"] { fill: #374151; }
+.dark [class*="dark:fill-gray-800"] { fill: #1f2937; }
+.dark .text-gray-900 { color: #e5e7eb; }
+.dark .bg-gray-50 { background-color: #0b1220; }
+/* Global dark mode base overrides */
+.dark body { background-color: #0b1220; color: #e5e7eb; }
+.dark .navbar, .dark .offcanvas, .dark .card, .dark .modal-content { background-color: #101828; color: #e5e7eb; }
+.dark .border, .dark .border-bottom, .dark .border-top { border-color: #334155 !important; }
+.dark .list-group-item { background-color: #101828; color: #e5e7eb; }
+.dark .form-control, .dark .form-select { background-color: #0b1220; color: #e5e7eb; border-color: #334155; }
+.dark .input-group-text { background-color: #0f172a; color: #e5e7eb; border-color: #334155; }
+.dark .btn-outline-secondary { color: #e5e7eb; border-color: #334155; }
+.dark .btn-outline-secondary:hover { background-color: #334155; border-color: #475569; }
+.dark .text-muted { color: #9aa3af !important; }
+/* Dark variant of hero section */
+.dark .hero { background: linear-gradient(135deg, #0b1220 0%, #1f2937 60%, #0f172a 100%); }
+/* Brand font */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
+.brand-logo {
+  font-family: 'IM Fell English', Papyrus, 'Segoe Print', cursive;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Home hero styling */
+.hero {
+  background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 60%, #bdc3c7 100%);
+}
+.hero .brand-logo {
+  font-size: 3rem;
+}
+
+/* Interactive card hover */
+.card-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
