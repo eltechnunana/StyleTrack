@@ -153,14 +153,10 @@
 
   // Gender radios remain for form semantics, but no image toggle
 
-  const defaultClients = ['Alice Johnson', 'Ben Thomas', 'Chris Lee'];
-  defaultClients.forEach(name => {
-    const opt = document.createElement('option');
-    opt.value = name; opt.textContent = name; clientSelect.appendChild(opt);
-  });
+  // Default clients removed - now using dynamic client management
 
   addClientBtn.addEventListener('click', () => {
-    const name = prompt('Enter client name');
+    const name = window.prompt ? window.prompt('Enter client name') : null;
     if (!name) return;
     const opt = document.createElement('option');
     opt.value = name; opt.textContent = name; clientSelect.appendChild(opt);
@@ -255,18 +251,92 @@
     });
     updateSuggestions();
   }
-  clearBtn.addEventListener('click', clearAll);
-  clearBtnMobile.addEventListener('click', clearAll);
+  function clearMeasurements() {
+    inputs.forEach(i => { if (i) i.value = ''; });
+    Object.values(labelIds).forEach(id => {
+      const label = document.getElementById(id);
+      if (label) label.textContent = label.textContent.split(':')[0];
+    });
+    updateSuggestions();
+  }
+  clearBtn.addEventListener('click', clearMeasurements);
+  clearBtnMobile.addEventListener('click', clearMeasurements);
+
+  // Field deletion functionality
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.delete-field-btn')) {
+      const btn = e.target.closest('.delete-field-btn');
+      const fieldName = btn.getAttribute('data-field');
+      deleteField(fieldName);
+    }
+  });
+
+  function deleteField(fieldName) {
+    // Handle custom fields
+    if (fieldName.startsWith('custom-field-')) {
+      const customFieldsContainer = document.getElementById('customFields');
+      const fieldToDelete = customFieldsContainer.querySelector(`[data-field="${fieldName}"]`);
+      if (fieldToDelete) {
+        const row = fieldToDelete.closest('.input-group');
+        if (row) {
+          row.classList.add('field-deleting');
+          setTimeout(() => {
+            row.remove();
+            showNotification('Custom field deleted successfully!');
+          }, 300);
+        }
+      }
+      return;
+    }
+
+    // Handle standard fields - just clear the value, don't remove the field
+    const field = document.getElementById(fieldName);
+    if (!field) return;
+    
+    const fieldContainer = field.closest('.input-group, .mb-3');
+    if (fieldContainer) {
+      fieldContainer.classList.add('field-deleting');
+      setTimeout(() => {
+        field.value = '';
+        fieldContainer.classList.remove('field-deleting');
+        showNotification('Field cleared successfully!');
+      }, 300);
+    }
+  }
+
+  function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+      ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 3000);
+  }
 
   document.getElementById('addCustomField').addEventListener('click', () => {
     const wrap = document.getElementById('customFields');
     const row = document.createElement('div');
     row.className = 'input-group mb-2';
+    const fieldId = `custom-field-${Date.now()}`;
     row.innerHTML = `
       <span class="input-group-text"><i class="bi bi-sliders"></i></span>
-      <input type="text" class="form-control" placeholder="Field name">
+      <input type="text" class="form-control" placeholder="Field name" data-field-id="${fieldId}">
       <input type="number" step="0.1" class="form-control" placeholder="0">
       <span class="input-group-text unit-badge">${unitToggle.checked ? 'in' : 'cm'}</span>
+      <button type="button" class="btn btn-outline-danger btn-sm delete-field-btn" data-field="${fieldId}" title="Delete field">
+        <i class="bi bi-x"></i>
+      </button>
     `;
     wrap.appendChild(row);
   });

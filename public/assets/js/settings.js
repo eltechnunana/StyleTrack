@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const bizAddress = document.getElementById('bizAddress');
   const bizCurrency = document.getElementById('bizCurrency');
   const defaultTaxPct = document.getElementById('defaultTaxPct');
+  const bizLogo = document.getElementById('bizLogo');
+  const logoPreview = document.getElementById('logoPreview');
+  const logoImage = document.getElementById('logoImage');
+  const removeLogo = document.getElementById('removeLogo');
   const saveBizBtn = document.getElementById('saveBizBtn');
 
   function loadPrefs() {
@@ -25,11 +29,50 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bizAddress) bizAddress.value = s.bizAddress || '';
     if (bizCurrency) bizCurrency.value = s.bizCurrency || 'USD';
     if (defaultTaxPct) defaultTaxPct.value = s.defaultTaxPct != null ? String(s.defaultTaxPct) : '';
+    // Load business logo
+    if (s.bizLogo && logoImage && logoPreview) {
+      logoImage.src = s.bizLogo;
+      logoPreview.style.display = 'block';
+      if (removeLogo) removeLogo.style.display = 'inline-block';
+    }
   }
 
   function applyTheme(theme) {
     const root = document.documentElement;
     if (theme === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+  }
+
+  // Handle logo file selection
+  if (bizLogo) {
+    bizLogo.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const logoData = e.target.result;
+          if (logoImage && logoPreview) {
+            logoImage.src = logoData;
+            logoPreview.style.display = 'block';
+            if (removeLogo) removeLogo.style.display = 'inline-block';
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Handle logo removal
+  if (removeLogo) {
+    removeLogo.addEventListener('click', () => {
+      if (bizLogo) bizLogo.value = '';
+      if (logoImage) logoImage.src = '';
+      if (logoPreview) logoPreview.style.display = 'none';
+      removeLogo.style.display = 'none';
+      // Remove from settings
+      const s = ST.settings.get();
+      delete s.bizLogo;
+      ST.settings.save(s);
+    });
   }
 
   saveBtn.addEventListener('click', () => {
@@ -48,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
       s.bizAddress = bizAddress?.value || s.bizAddress || '';
       s.bizCurrency = bizCurrency?.value || s.bizCurrency || 'USD';
       s.defaultTaxPct = defaultTaxPct?.value ? parseFloat(defaultTaxPct.value) : s.defaultTaxPct;
+      // Save logo if uploaded
+      if (logoImage && logoImage.src && logoImage.src !== window.location.href) {
+        s.bizLogo = logoImage.src;
+      }
       ST.settings.save(s);
       alert('Business details saved');
     });

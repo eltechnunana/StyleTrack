@@ -89,3 +89,44 @@
 .card-compact .list-group-item {
   font-size: 0.9rem;
 }
+
+/* Delete field button styling */
+.delete-field-btn {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  border-radius: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  min-width: auto;
+  flex-shrink: 0;
+}
+
+.delete-field-btn:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.delete-field-btn i {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* Field deletion animation */
+.field-deleting {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+}
+
+/* Dark mode delete button styling */
+.dark .delete-field-btn {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.dark .delete-field-btn:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #dc2626;
+}

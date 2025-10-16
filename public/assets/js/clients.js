@@ -109,8 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const editBtn = document.createElement('button'); editBtn.className = 'btn btn-sm btn-outline-secondary me-2'; editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
       editBtn.addEventListener('click', () => {
-        const name = prompt('Edit client name', c.name);
-        if (name && name.trim()) { ST.clients.update(c.id, { name: name.trim() }); render(); }
+        // Create a simple input dialog using Bootstrap modal or inline editing
+        const newName = window.prompt ? window.prompt('Edit client name', c.name) : c.name;
+        if (newName && newName.trim() && newName !== c.name) { 
+          ST.clients.update(c.id, { name: newName.trim() }); 
+          render(); 
+        }
       });
 
       const delBtn = document.createElement('button'); delBtn.className = 'btn btn-sm btn-outline-danger'; delBtn.innerHTML = '<i class="bi bi-trash"></i>';
@@ -123,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   addBtn.addEventListener('click', () => {
-    const name = prompt('New client name');
+    const name = window.prompt ? window.prompt('New client name') : null;
     if (name && name.trim()) { ST.clients.add(name.trim()); render(); }
   });
 

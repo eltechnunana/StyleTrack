@@ -76,13 +76,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const invoiceId = order.invoiceId || `INV-${order.id.slice(-6)}`;
     const currency = totals.currency;
 
-    // Header
+    // Header with logo
+    let yStart = 20;
+    if (biz.bizLogo) {
+      try {
+        // Detect image format from data URL
+        let format = 'JPEG';
+        if (biz.bizLogo.startsWith('data:image/png')) format = 'PNG';
+        else if (biz.bizLogo.startsWith('data:image/jpeg') || biz.bizLogo.startsWith('data:image/jpg')) format = 'JPEG';
+        else if (biz.bizLogo.startsWith('data:image/svg')) format = 'SVG';
+        
+        doc.addImage(biz.bizLogo, format, 14, 10, 40, 20);
+        yStart = 35;
+      } catch (e) {
+        console.warn('Could not add logo to PDF:', e);
+      }
+    }
+    
     doc.setFontSize(18);
-    doc.text(String(biz.bizName || 'StyleTrack'), 14, 20);
+    doc.text(String(biz.bizName || 'StyleTrack'), biz.bizLogo ? 60 : 14, yStart);
     doc.setFontSize(11);
-    const yBase = 26;
+    const yBase = yStart + 6;
     const contactLines = [biz.bizAddress, biz.bizEmail, biz.bizPhone].filter(Boolean);
-    contactLines.forEach((line, idx) => doc.text(String(line), 14, yBase + (idx * 6)));
+    contactLines.forEach((line, idx) => doc.text(String(line), biz.bizLogo ? 60 : 14, yBase + (idx * 6)));
 
     // Title & meta
     let y = yBase + (contactLines.length * 6) + 10;
@@ -160,13 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const receiptId = `RCT-${order.id.slice(-6)}`;
     const currency = totals.currency;
 
-    // Header
+    // Header with logo
+    let yStart = 20;
+    if (biz.bizLogo) {
+      try {
+        // Detect image format from data URL
+        let format = 'JPEG';
+        if (biz.bizLogo.startsWith('data:image/png')) format = 'PNG';
+        else if (biz.bizLogo.startsWith('data:image/jpeg') || biz.bizLogo.startsWith('data:image/jpg')) format = 'JPEG';
+        else if (biz.bizLogo.startsWith('data:image/svg')) format = 'SVG';
+        
+        doc.addImage(biz.bizLogo, format, 14, 10, 40, 20);
+        yStart = 35;
+      } catch (e) {
+        console.warn('Could not add logo to PDF:', e);
+      }
+    }
+    
     doc.setFontSize(18);
-    doc.text(String(biz.bizName || 'StyleTrack'), 14, 20);
+    doc.text(String(biz.bizName || 'StyleTrack'), biz.bizLogo ? 60 : 14, yStart);
     doc.setFontSize(11);
-    const yBase = 26;
+    const yBase = yStart + 6;
     const contactLines = [biz.bizAddress, biz.bizEmail, biz.bizPhone].filter(Boolean);
-    contactLines.forEach((line, idx) => doc.text(String(line), 14, yBase + (idx * 6)));
+    contactLines.forEach((line, idx) => doc.text(String(line), biz.bizLogo ? 60 : 14, yBase + (idx * 6)));
 
     // Title & meta
     let y = yBase + (contactLines.length * 6) + 10;
