@@ -289,17 +289,22 @@
       return;
     }
 
-    // Handle standard fields - just clear the value, don't remove the field
+    // Handle standard fields - actually remove/hide the entire field
     const field = document.getElementById(fieldName);
     if (!field) return;
     
-    const fieldContainer = field.closest('.input-group, .mb-3');
+    // Find the parent column container (col-6 or col-12)
+    const fieldContainer = field.closest('.col-6, .col-12');
     if (fieldContainer) {
       fieldContainer.classList.add('field-deleting');
       setTimeout(() => {
-        field.value = '';
-        fieldContainer.classList.remove('field-deleting');
-        showNotification('Field cleared successfully!');
+        fieldContainer.style.display = 'none';
+        // Also remove from inputs array to prevent it from being processed
+        const fieldIndex = inputs.findIndex(input => input && input.id === fieldName);
+        if (fieldIndex !== -1) {
+          inputs[fieldIndex] = null;
+        }
+        showNotification('Field deleted successfully!');
       }, 300);
     }
   }
