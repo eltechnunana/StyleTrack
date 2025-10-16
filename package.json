@@ -1,0 +1,16 @@
+{
+  "name": "eltracker",
+  "version": "1.0.0",
+  "description": "StyleTrack - Tailoring measurement tracking application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": ["tailoring", "measurements", "tracking"],
+  "author": "",
+  "license": "ISC"
+}
