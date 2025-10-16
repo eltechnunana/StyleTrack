@@ -77,3 +77,16 @@
   transform: translateY(-2px);
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
 }
+
+/* Compact card styling */
+.card-compact .card-body {
+  padding: 1rem;
+}
+.card-compact .card-title {
+  font-size: 0.95rem;
+}
+.card-compact .form-control,
+.card-compact .list-group-item {
+  font-size: 0.9rem;
+}
+}
