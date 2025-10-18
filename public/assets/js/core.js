@@ -25,8 +25,23 @@
       return null;
     },
     remove(id) {
+      const client = this.all().find(c => c.id === id);
       const list = this.all().filter(c => c.id !== id);
       this.save(list);
+      
+      // Also clean up associated measurement data (both ID and name-based keys)
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(MEASURE_PREFIX)) {
+          const keyClientId = key.replace(MEASURE_PREFIX, '').split('|')[0];
+          // Check if this measurement belongs to the deleted client (by ID or name)
+          if (keyClientId === id || (client && keyClientId === client.name)) {
+            keysToRemove.push(key);
+          }
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
     }
   };
 

@@ -14,6 +14,9 @@
     }
   }
 
+  // Make renderCounts globally accessible for other pages to trigger updates
+  window.renderCounts = renderCounts;
+  
   function renderCounts() {
     const clients = (window.ST && ST.clients && ST.clients.all()) || [];
     const orders = (window.ST && ST.orders && ST.orders.all()) || [];

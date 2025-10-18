@@ -79,6 +79,25 @@ document.addEventListener('DOMContentLoaded', () => {
           tr.append(td1, td2); tableBody.appendChild(tr);
         }
       });
+      
+      // Display custom fields
+      console.log('Debug: Checking custom fields for', gender, data);
+      console.log('Custom fields data:', data.customFields);
+      if (data.customFields && Object.keys(data.customFields).length > 0) {
+        console.log('Found custom fields:', Object.keys(data.customFields));
+        Object.entries(data.customFields).forEach(([fieldName, fieldValue]) => {
+          console.log('Processing custom field:', fieldName, '=', fieldValue);
+          if (fieldName.trim() && fieldValue !== '') {
+            const tr = document.createElement('tr');
+            const td1 = document.createElement('td'); td1.textContent = fieldName;
+            const td2 = document.createElement('td'); td2.textContent = `${fieldValue} ${unit}`;
+            tr.append(td1, td2); tableBody.appendChild(tr);
+          }
+        });
+      } else {
+        console.log('No custom fields found or empty object');
+      }
+      
       // Separator between datasets
       if (idx < datasets.length - 1) {
         const sep = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 2; td.innerHTML = '<hr class="my-2">'; sep.appendChild(td); tableBody.appendChild(sep);
@@ -119,7 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const delBtn = document.createElement('button'); delBtn.className = 'btn btn-sm btn-outline-danger'; delBtn.innerHTML = '<i class="bi bi-trash"></i>';
       delBtn.addEventListener('click', () => {
-        if (confirm(`Delete client "${c.name}"?`)) { ST.clients.remove(c.id); render(); }
+        if (confirm(`Delete client "${c.name}"?`)) { 
+          ST.clients.remove(c.id); 
+          render(); 
+          // Trigger dashboard update if on home page
+          if (window.renderCounts && typeof window.renderCounts === 'function') {
+            window.renderCounts();
+          }
+        }
       });
 
       actionsTd.append(viewBtn, editBtn, delBtn); tr.appendChild(actionsTd); tbody.appendChild(tr);

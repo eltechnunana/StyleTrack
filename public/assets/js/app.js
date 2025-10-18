@@ -166,6 +166,22 @@
   function getMeasurements() {
     const data = {};
     inputs.forEach(input => { if (input) data[input.id] = input.value; });
+    
+    // Collect custom fields data
+    const customFields = {};
+    const customFieldsContainer = document.getElementById('customFields');
+    if (customFieldsContainer) {
+      const customFieldRows = customFieldsContainer.querySelectorAll('.input-group');
+      customFieldRows.forEach(row => {
+        const nameInput = row.querySelector('input[type="text"]');
+        const valueInput = row.querySelector('input[type="number"]');
+        if (nameInput && valueInput && nameInput.value.trim()) {
+          customFields[nameInput.value.trim()] = valueInput.value || '';
+        }
+      });
+    }
+    data.customFields = customFields;
+    
     data.unit = unitToggle.checked ? 'in' : 'cm';
     data.gender = document.querySelector('input[name="gender"]:checked')?.value || 'male';
     const notesEl = document.getElementById('field-notes');
@@ -188,6 +204,43 @@
       }
       input.value = val;
     });
+    
+    // Restore custom fields
+    const customFieldsContainer = document.getElementById('customFields');
+    if (customFieldsContainer && data.customFields) {
+      // Clear existing custom fields first
+      customFieldsContainer.innerHTML = '';
+      
+      // Recreate custom fields from saved data
+      Object.entries(data.customFields).forEach(([fieldName, fieldValue]) => {
+        if (fieldName.trim()) {
+          const row = document.createElement('div');
+          row.className = 'input-group mb-2';
+          const fieldId = `custom-field-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+          
+          // Convert value if units are different
+          let displayValue = fieldValue;
+          if (displayValue !== '' && !isNaN(parseFloat(displayValue))) {
+            const num = parseFloat(displayValue);
+            if (toUnit !== wantUnit) {
+              displayValue = toUnit === 'cm' ? (num / CM_PER_INCH).toFixed(1) : (num * CM_PER_INCH).toFixed(1);
+            }
+          }
+          
+          row.innerHTML = `
+            <span class="input-group-text"><i class="bi bi-sliders"></i></span>
+            <input type="text" class="form-control" placeholder="Field name" data-field-id="${fieldId}" value="${fieldName}">
+            <input type="number" step="0.1" class="form-control" placeholder="0" value="${displayValue}">
+            <span class="input-group-text unit-badge">${unitToggle.checked ? 'in' : 'cm'}</span>
+            <button type="button" class="btn btn-outline-danger btn-sm delete-field-btn" data-field="${fieldId}" title="Delete field">
+              <i class="bi bi-x"></i>
+            </button>
+          `;
+          customFieldsContainer.appendChild(row);
+        }
+      });
+    }
+    
     updateSuggestions();
   }
 
@@ -232,6 +285,11 @@
       // Clear if no data for selection
       inputs.forEach(i => { if (i) i.value = ''; });
       const notesEl = document.getElementById('field-notes'); if (notesEl) notesEl.value = '';
+      
+      // Clear custom fields as well
+      const customFieldsContainer = document.getElementById('customFields');
+      if (customFieldsContainer) customFieldsContainer.innerHTML = '';
+      
       updateSuggestions();
     }
   }
