@@ -9,6 +9,9 @@
   const clearBtn = document.getElementById('clearBtn');
   const saveBtnMobile = document.getElementById('saveBtnMobile');
   const clearBtnMobile = document.getElementById('clearBtnMobile');
+  const addPhotoBtn = document.getElementById('addPhotoBtn');
+  const photoUpload = document.getElementById('photoUpload');
+  const photoPreview = document.getElementById('photoPreview');
   // Simplified visual: always show SVG silhouette; no external image
 
   const partToField = {
@@ -182,6 +185,24 @@
     }
     data.customFields = customFields;
     
+    // Collect photos data
+    const photos = [];
+    const photoPreviewContainer = document.getElementById('photoPreview');
+    if (photoPreviewContainer) {
+      const photoElements = photoPreviewContainer.querySelectorAll('.photo-item');
+      photoElements.forEach(photoEl => {
+        const imgEl = photoEl.querySelector('img');
+        if (imgEl && imgEl.src) {
+          photos.push({
+            src: imgEl.src,
+            name: imgEl.getAttribute('data-filename') || 'photo.jpg',
+            uploadedAt: imgEl.getAttribute('data-uploaded') || new Date().toISOString()
+          });
+        }
+      });
+    }
+    data.photos = photos;
+    
     data.unit = unitToggle.checked ? 'in' : 'cm';
     data.gender = document.querySelector('input[name="gender"]:checked')?.value || 'male';
     const notesEl = document.getElementById('field-notes');
@@ -237,6 +258,32 @@
             </button>
           `;
           customFieldsContainer.appendChild(row);
+        }
+      });
+    }
+    
+    // Restore photos
+    const photoPreviewContainer = document.getElementById('photoPreview');
+    if (photoPreviewContainer && data.photos) {
+      // Clear existing photos first
+      photoPreviewContainer.innerHTML = '';
+      
+      // Recreate photos from saved data
+      data.photos.forEach((photo, index) => {
+        if (photo.src) {
+          const photoDiv = document.createElement('div');
+          photoDiv.className = 'col-6 col-md-4 col-lg-3 photo-item';
+          photoDiv.innerHTML = `
+            <div class="position-relative">
+              <img src="${photo.src}" class="img-fluid rounded" style="height: 120px; object-fit: cover; width: 100%;" 
+                   data-filename="${photo.name}" data-uploaded="${photo.uploadedAt}">
+              <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-photo-btn" 
+                      data-photo-index="${index}" title="Delete photo">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          `;
+          photoPreviewContainer.appendChild(photoDiv);
         }
       });
     }
@@ -440,6 +487,56 @@
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 2000);
   }
+
+  // Photo upload functionality
+  addPhotoBtn.addEventListener('click', () => {
+    photoUpload.click();
+  });
+
+  photoUpload.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach(file => {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          addPhotoToPreview(event.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    // Clear the input so the same file can be selected again
+    e.target.value = '';
+  });
+
+  function addPhotoToPreview(src, filename) {
+    const photoDiv = document.createElement('div');
+    photoDiv.className = 'col-6 col-md-4 col-lg-3 photo-item';
+    const uploadedAt = new Date().toISOString();
+    
+    photoDiv.innerHTML = `
+      <div class="position-relative">
+        <img src="${src}" class="img-fluid rounded" style="height: 120px; object-fit: cover; width: 100%;" 
+             data-filename="${filename}" data-uploaded="${uploadedAt}">
+        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-photo-btn" 
+                title="Delete photo">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+    `;
+    
+    photoPreview.appendChild(photoDiv);
+  }
+
+  // Photo deletion functionality
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.delete-photo-btn')) {
+      const btn = e.target.closest('.delete-photo-btn');
+      const photoItem = btn.closest('.photo-item');
+      if (photoItem) {
+        photoItem.remove();
+      }
+    }
+  });
 
   // Initialize from URL gender param if present
   (function initGenderFromUrl(){

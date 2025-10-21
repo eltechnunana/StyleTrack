@@ -98,6 +98,41 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('No custom fields found or empty object');
       }
       
+      // Display photos
+      console.log('Debug: Checking photos for', gender, data);
+      console.log('Photos data:', data.photos);
+      if (data.photos && data.photos.length > 0) {
+        console.log('Found photos:', data.photos.length);
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td'); td1.textContent = 'Style Photos';
+        const td2 = document.createElement('td');
+        
+        const photoContainer = document.createElement('div');
+        photoContainer.className = 'row g-2';
+        
+        data.photos.forEach((photo, index) => {
+          if (photo.src) {
+            const photoDiv = document.createElement('div');
+            photoDiv.className = 'col-6 col-md-4';
+            photoDiv.innerHTML = `
+              <div class="position-relative">
+                <img src="${photo.src}" class="img-fluid rounded" style="height: 80px; object-fit: cover; width: 100%; cursor: pointer;" 
+                     data-bs-toggle="modal" data-bs-target="#photoViewModal" 
+                     onclick="showPhotoModal('${photo.src}', '${photo.name}')">
+                <small class="text-muted d-block mt-1">${photo.name}</small>
+              </div>
+            `;
+            photoContainer.appendChild(photoDiv);
+          }
+        });
+        
+        td2.appendChild(photoContainer);
+        tr.append(td1, td2); 
+        tableBody.appendChild(tr);
+      } else {
+        console.log('No photos found or empty array');
+      }
+      
       // Separator between datasets
       if (idx < datasets.length - 1) {
         const sep = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 2; td.innerHTML = '<hr class="my-2">'; sep.appendChild(td); tableBody.appendChild(sep);
@@ -156,6 +191,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = window.prompt ? window.prompt('New client name') : null;
     if (name && name.trim()) { ST.clients.add(name.trim()); render(); }
   });
+
+  // Photo modal functionality
+  window.showPhotoModal = function(src, name) {
+    // Create modal if it doesn't exist
+    let photoModal = document.getElementById('photoViewModal');
+    if (!photoModal) {
+      photoModal = document.createElement('div');
+      photoModal.className = 'modal fade';
+      photoModal.id = 'photoViewModal';
+      photoModal.innerHTML = `
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="photoModalTitle">Style Photo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+              <img id="photoModalImage" class="img-fluid" style="max-height: 70vh;">
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(photoModal);
+    }
+    
+    // Update modal content
+    document.getElementById('photoModalTitle').textContent = name || 'Style Photo';
+    document.getElementById('photoModalImage').src = src;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(photoModal);
+    modal.show();
+  };
 
   render();
 });
