@@ -1,0 +1,85 @@
+STYLEME INVOICE PREVIEW
+========================
+
+=== INVOICE DETAILS ===
+Invoice Number: INV-123456
+Issue Date: 11/24/2025
+Due Date: 12/08/2025
+Client: John Smith
+
+=== COMPANY INFORMATION ===
+Company Name: StyleMe Tailoring Services
+Phone: +1 (555) 123-4567
+Email: info@styleme.com
+Address: 123 Fashion Avenue, Style City, SC 12345
+
+=== ITEMS ===
+1. Custom Suit Tailoring - Qty: 1 - $500.00 - Total: $500.00
+2. Shirt Alterations - Qty: 2 - $50.00 - Total: $100.00
+
+=== TOTALS ===
+Subtotal: $600.00
+Tax (8.5%): $51.00
+Total: $651.00
+
+=== TERMS & CONDITIONS ===
+
+TERMS & CONDITIONS
+
+1. Validity of Quotation
+
+This quotation is valid for 14 days from the date of issue. Prices and availability may be reviewed after the validity period.
+
+2. Deposit Requirement
+
+Production begins only after a 60% deposit has been paid and confirmed.
+
+3. Final Payment
+
+The remaining 40% balance must be paid upon completion, before delivery or collection of the final product.
+
+4. Express Orders (3–5 Days)
+
+Express or rush orders attract an additional service charge, depending on the urgency and complexity of the request.
+
+5. Client-Related Delays
+
+StyleMe Tailoring Services is not liable for delays resulting from late submission of measurements, approvals, artwork, content, or any required information from the client.
+
+6. Revisions & Adjustments
+
+Changes requested after production has started may attract extra charges and may affect the delivery date.
+
+7. Cancellation Policy
+
+Once a deposit is paid, it becomes non-refundable. Cancellation after production begins will also attract additional charges for work already completed.
+
+8. Inspection & Quality Assurance
+
+All products are inspected before delivery. Clients are encouraged to check all items upon receipt. Any complaints, corrections, or defects must be reported within 48 hours.
+
+9. Ownership of Work
+
+All items remain the property of StyleMe Tailoring Services until full payment has been received.
+
+10. Delivery
+
+Delivery timelines are estimates and may be affected by unforeseen factors. Clients requesting delivery may incur additional delivery charges.
+
+11. Artwork & Content Submission
+
+Clients are responsible for submitting correct and final artwork/content. StyleMe Tailoring Services is not responsible for errors arising from incorrect or low-resolution files provided by the client.
+
+12. Warranty
+
+A limited warranty covers workmanship issues only. Damage caused by mishandling, improper installation, or external factors is not covered.
+
+13. Contact Information
+
+For further assistance, please contact:
+
+Phone: +1 (555) 123-4567
+
+Email: info@styleme.com
+
+=== END OF INVOICE ===

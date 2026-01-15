@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleMe Invoice Preview</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .invoice-header {
+            background: linear-gradient(135deg, #0d6efd, #0056b3);
+            color: white;
+            padding: 30px;
+            margin: -40px -40px 30px -40px;
+            border-radius: 10px 10px 0 0;
+        }
+        .invoice-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 0;
+        }
+        .invoice-subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 5px 0 0 0;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .section-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0d6efd;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "📋";
+            margin-right: 10px;
+        }
+        .company-info .section-title::before { content: "🏢"; }
+        .invoice-details .section-title::before { content: "📄"; }
+        .items .section-title::before { content: "🛍️"; }
+        .totals .section-title::before { content: "💰"; }
+        .terms .section-title::before { content: "⚖️"; }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .info-value {
+            color: #333;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-header {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-weight: 600;
+        }
+        .final-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0d6efd;
+            border-top: 2px solid #0d6efd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .terms-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <h1 class="invoice-title">INVOICE</h1>
+            <p class="invoice-subtitle">Professional Invoice Generator - StyleMe Tailoring Services</p>
+        </div>
+
+        <!-- Company Information -->
+        <div class="section company-info">
+            <h2 class="section-title">Company Information</h2>
+            <div class="info-row">
+                <span class="info-label">Company Name:</span>
+                <span class="info-value">StyleMe Tailoring Services</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Phone Number:</span>
+                <span class="info-value">+1 (555) 123-4567</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email Address:</span>
+                <span class="info-value">info@styleme.com</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Business Address:</span>
+                <span class="info-value">123 Fashion Avenue, Style City, SC 12345</span>
+            </div>
+        </div>
+
+        <!-- Invoice Details -->
+        <div class="section invoice-details">
+            <h2 class="section-title">Invoice Details</h2>
+            <div class="info-row">
+                <span class="info-label">Invoice Number:</span>
+                <span class="info-value highlight">INV-123456</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Issue Date:</span>
+                <span class="info-value">November 24, 2025</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Due Date:</span>
+                <span class="info-value">December 8, 2025</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Client:</span>
+                <span class="info-value">John Smith</span>
+            </div>
+        </div>
+
+        <!-- Invoice Items -->
+        <div class="section items">
+            <h2 class="section-title">Invoice Items</h2>
+            <div class="item-row item-header">
+                <div>Description</div>
+                <div>Quantity</div>
+                <div>Unit Price</div>
+                <div>Total</div>
+            </div>
+            <div class="item-row">
+                <div>Custom Suit Tailoring</div>
+                <div>1</div>
+                <div>$500.00</div>
+                <div>$500.00</div>
+            </div>
+            <div class="item-row">
+                <div>Shirt Alterations</div>
+                <div>2</div>
+                <div>$50.00</div>
+                <div>$100.00</div>
+            </div>
+        </div>
+
+        <!-- Tax and Totals -->
+        <div class="section totals">
+            <h2 class="section-title">Tax & Totals</h2>
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span>$600.00</span>
+            </div>
+            <div class="total-row">
+                <span>Tax Rate (8.5%):</span>
+                <span>$51.00</span>
+            </div>
+            <div class="total-row final-total">
+                <span>TOTAL:</span>
+                <span>$651.00</span>
+            </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="section terms">
+            <h2 class="section-title">Terms & Conditions</h2>
+            <div class="terms-content">
+TERMS & CONDITIONS
+
+1. Validity of Quotation
+
+This quotation is valid for 14 days from the date of issue. Prices and availability may be reviewed after the validity period.
+
+2. Deposit Requirement
+
+Production begins only after a 60% deposit has been paid and confirmed.
+
+3. Final Payment
+
+The remaining 40% balance must be paid upon completion, before delivery or collection of the final product.
+
+4. Express Orders (3–5 Days)
+
+Express or rush orders attract an additional service charge, depending on the urgency and complexity of the request.
+
+5. Client-Related Delays
+
+StyleMe Tailoring Services is not liable for delays resulting from late submission of measurements, approvals, artwork, content, or any required information from the client.
+
+6. Revisions & Adjustments
+
+Changes requested after production has started may attract extra charges and may affect the delivery date.
+
+7. Cancellation Policy
+
+Once a deposit is paid, it becomes non-refundable. Cancellation after production begins will also attract additional charges for work already completed.
+
+8. Inspection & Quality Assurance
+
+All products are inspected before delivery. Clients are encouraged to check all items upon receipt. Any complaints, corrections, or defects must be reported within 48 hours.
+
+9. Ownership of Work
+
+All items remain the property of StyleMe Tailoring Services until full payment has been received.
+
+10. Delivery
+
+Delivery timelines are estimates and may be affected by unforeseen factors. Clients requesting delivery may incur additional delivery charges.
+
+11. Artwork & Content Submission
+
+Clients are responsible for submitting correct and final artwork/content. StyleMe Tailoring Services is not responsible for errors arising from incorrect or low-resolution files provided by the client.
+
+12. Warranty
+
+A limited warranty covers workmanship issues only. Damage caused by mishandling, improper installation, or external factors is not covered.
+
+13. Contact Information
+
+For further assistance, please contact:
+
+Phone: +1 (555) 123-4567
+
+Email: info@styleme.com
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.9em;">
+            <p>Thank you for choosing StyleMe Tailoring Services!</p>
+            <p>This invoice was generated using the StyleMe Invoice System</p>
+        </div>
+    </div>
+</body>
+</html>
