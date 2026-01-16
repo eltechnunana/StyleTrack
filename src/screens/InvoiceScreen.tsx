@@ -95,12 +95,12 @@ Email: ${companyInfo.email}`;
   useEffect(() => {
     loadOrderData();
     loadCompanyInfo();
-  }, [orderId, loadOrderData, loadCompanyInfo]);
+  }, [orderId]);
 
   const loadOrderData = useCallback(async () => {
     try {
       const orders = await DataService.getOrders();
-      const foundOrder = orders.find(o => o.id === orderId);
+      const foundOrder = orders.find((o: Order) => o.id === orderId);
       if (foundOrder) {
         setOrder(foundOrder);
         initializeInvoice(foundOrder);
@@ -260,7 +260,7 @@ Bill To:
 ${invoice.clientName}
 
 Items:
-${invoice.items.map(item => `${item.description} - Qty: ${item.quantity} - $${item.unitPrice.toFixed(2)} - Total: $${item.total.toFixed(2)}`).join('\n')}
+${invoice.items.map((item: InvoiceItem) => `${item.description} - Qty: ${item.quantity} - $${item.unitPrice.toFixed(2)} - Total: $${item.total.toFixed(2)}`).join('\n')}
 
 Subtotal: $${invoice.subtotal.toFixed(2)}
 Tax (${taxRate}%): $${invoice.tax.toFixed(2)}
